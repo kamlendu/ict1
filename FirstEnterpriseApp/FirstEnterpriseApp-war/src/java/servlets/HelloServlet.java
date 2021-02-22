@@ -9,6 +9,7 @@ import ejb.HelloBeanLocal;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.ejb.EJB;
+import javax.naming.InitialContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +21,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class HelloServlet extends HttpServlet {
     
-    @EJB HelloBeanLocal hbl;
+    //@EJB 
+            HelloBeanLocal hbl;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,6 +44,18 @@ public class HelloServlet extends HttpServlet {
             out.println("<title>Servlet HelloServlet</title>");            
             out.println("</head>");
             out.println("<body>");
+            try{
+InitialContext ic = new InitialContext();
+                            hbl = (HelloBeanLocal) ic.lookup("java:global/FirstEnterpriseApp/FirstEnterpriseApp-ejb/HelloBean");
+
+                    
+                        }
+catch(Exception e)
+{
+
+}
+            
+            
             out.println("<h1>EJB Says: " + hbl.sayHello(" MSc ICT ") + "</h1>");
             out.println("</body>");
             out.println("</html>");
