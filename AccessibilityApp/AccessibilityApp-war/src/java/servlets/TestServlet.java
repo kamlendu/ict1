@@ -9,7 +9,10 @@ import ejb.CalculationBeanRemote;
 import ejb.MathBeanLocal;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Properties;
 import javax.ejb.EJB;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,7 +26,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "TestServlet", urlPatterns = {"/TestServlet"})
 public class TestServlet extends HttpServlet {
     
-    @EJB MathBeanLocal mbl;
+    //@EJB 
+   // MathBeanLocal mbl;
     @EJB CalculationBeanRemote cbr;
 
     /**
@@ -45,12 +49,22 @@ public class TestServlet extends HttpServlet {
             out.println("<head>");
             out.println("<title>Servlet TestServlet</title>");            
             out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Addition of 56 and 44 is " + mbl.sum(56, 44)+ "</h1>");
-            out.println("<h1>Difference of 56 and 44 is " + mbl.diff(56, 44)+ "</h1>");
+            out.println("<body>");      
+            
+            try{
+                InitialContext ic =  new InitialContext();
+            
+           //mbl = (MathBeanLocal) ic.lookup("java:global/AccessibilityApp/AccessibilityApp-ejb/MathBean");
+
+            out.println("<h1>Addition of 56 and 44 is " + cbr.sum(56, 44)+ "</h1>");
+            out.println("<h1>Difference of 56 and 44 is " + cbr.diff(56, 44)+ "</h1>");
             out.println("<h1> Product  of 50 and 5 is " + cbr.product(50, 5)+ "</h1>");
             out.println("<h1>Division of 50 and 5 is " + cbr.div(50,5)+ "</h1>");
-          
+            }
+            catch(Exception e)
+            {
+                
+            }
             out.println("</body>");
             out.println("</html>");
         }

@@ -5,6 +5,7 @@
  */
 package ejb;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 /**
@@ -14,6 +15,8 @@ import javax.ejb.Stateless;
 @Stateless(mappedName = "ejb/calc")
 public class CalculationBean implements CalculationBeanRemote {
 
+    @EJB MathBeanLocal mbl;
+    
     @Override
     public int product(int x, int y) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -28,6 +31,19 @@ public class CalculationBean implements CalculationBeanRemote {
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
+
+    @Override
+    public int sum(int x, int y) {
+       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    return mbl.sum(x, y);
+    }
+
+    @Override
+    public int diff(int x, int y) {
+       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
+    return mbl.diff(x, y);
+    }
 
 
 }

@@ -16,4 +16,6 @@ public interface CalculationBeanRemote {
     
     int product(int x, int y);
     int div(int x, int y);
+     int sum(int x, int y);
+    int diff(int x, int y);
 }

@@ -6,9 +6,12 @@
 package servlets;
 
 import ejb.CalculationBeanRemote;
+import ejb.WebBean;
+//import ejb.MathBeanLocal;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Properties;
+import javax.ejb.EJB;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
@@ -25,6 +28,8 @@ import javax.servlet.http.HttpServletResponse;
 public class RemoteServlet extends HttpServlet {
     
    // @EJB(mappedName = "ejb/calc")
+   // MathBeanLocal mbl;
+    @EJB WebBean wb;
     CalculationBeanRemote cbr;
     InitialContext ctx;
 
@@ -48,6 +53,8 @@ public class RemoteServlet extends HttpServlet {
             out.println("<title>Servlet RemoteServlet</title>");            
             out.println("</head>");
             out.println("<body>");
+            
+            out.println("<h2> Ucase : " + wb.upperCase("university") );
           try{
               Properties p = new Properties();
  p.setProperty("org.omg.CORBA.ORBInitialHost", "localhost");
@@ -55,17 +62,24 @@ public class RemoteServlet extends HttpServlet {
               
               ctx = new InitialContext(p);
               cbr = (CalculationBeanRemote) ctx.lookup("ejb/calc");
-              
+           //   mbl=(MathBeanLocal)ctx.lookup("java:global/AccessibilityApp/AccessibilityApp-ejb/MathBean");
           }  
           catch(NamingException ne)
           {
              ne.printStackTrace();
           }
-            
+        
+          
+          
             out.println("<h1>Product of 50 and 5 is  " + cbr.product(50, 5) + "</h1>");
             out.println("<h1>Division of 50 and 5 is  " + cbr.div(50, 5) + "</h1>");
+  out.println("<h1>Sum of 50 and 5 is  " + cbr.sum(50, 5) + "</h1>");
+            out.println("<h1>Diff of 50 and 5 is  " + cbr.diff(50, 5) + "</h1>");
+
+//           out.println("<h1>Addition of 50 and 5 is  " + mbl.sum(50, 5) + "</h1>");
            
             out.println("</body>");
+            
             out.println("</html>");
         }
         
