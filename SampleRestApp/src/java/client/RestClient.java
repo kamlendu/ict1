@@ -32,6 +32,10 @@ public class RestClient {
         webTarget = client.target(BASE_URI).path("rest");
     }
 
+    public <T> T getUpperNames(Object requestEntity, Class<T> responseType) throws ClientErrorException {
+        return webTarget.path("unames").request(javax.ws.rs.core.MediaType.APPLICATION_JSON).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON), responseType);
+    }
+
     public String sayHello() throws ClientErrorException {
         WebTarget resource = webTarget;
         return resource.request(javax.ws.rs.core.MediaType.TEXT_HTML).get(String.class);

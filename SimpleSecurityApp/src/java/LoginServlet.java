@@ -3,34 +3,29 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servlets;
 
-import client.RestClient;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collection;
+import javax.inject.Inject;
+import javax.security.enterprise.AuthenticationStatus;
+import javax.security.enterprise.SecurityContext;
+import static javax.security.enterprise.authentication.mechanism.http.AuthenticationParameters.withParams;
+import javax.security.enterprise.credential.Credential;
+import javax.security.enterprise.credential.Password;
+import javax.security.enterprise.credential.UsernamePasswordCredential;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.Response;
 
 /**
  *
  * @author root
  */
-@WebServlet(name = "RestServlet", urlPatterns = {"/RestServlet"})
-public class RestServlet extends HttpServlet {
-    
-    RestClient client;
-    Response res;
-    Collection<String> lnames;
-    Collection<String> unames;
-    GenericType<Collection<String>> gnames;
-
+@WebServlet(urlPatterns = {"/LoginServlet"})
+public class LoginServlet extends HttpServlet {
+@Inject SecurityContext ctx;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -48,29 +43,24 @@ public class RestServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet RestServlet</title>");            
+            out.println("<title>Servlet LoginServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            client = new RestClient();
-            unames = new ArrayList<String>();
-            gnames = new GenericType<Collection<String>>() { };
-            
-            lnames = new ArrayList<String>();
-            lnames.add("prachi");
-            lnames.add("prashant");
-            lnames.add("vipul");
-            
-            res = client.getUpperNames(lnames, Response.class);
-            unames = res.readEntity(gnames);
-            
-            for(String s : unames)
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            Credential credential = new UsernamePasswordCredential(username, new Password(password));
+            AuthenticationStatus status = ctx.authenticate(request, response, withParams().credential(credential));
+            if(status==status.SUCCESS)
             {
-             out.println("<h1>"+s+"</h1>");   
+               request.getServletContext().getRequestDispatcher("/SecureServlet").forward(request, response);
+            }
+            else
+            {
+                      request.getServletContext().getRequestDispatcher("/LoginError.jsp").forward(request, response);
+        
             }
             
-            out.println("<h1> hello :  " + client.sayHello() + "</h1>");
-           out.println("<h1> special hello :  " + client.saySpecialHello("Swati") + "</h1>");
-         
+            out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }

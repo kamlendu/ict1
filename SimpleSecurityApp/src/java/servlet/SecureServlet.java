@@ -3,33 +3,29 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servlets;
+package servlet;
 
-import client.RestClient;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collection;
+import javax.annotation.security.DeclareRoles;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.HttpConstraint;
+import javax.servlet.annotation.ServletSecurity;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.Response;
 
 /**
  *
  * @author root
  */
-@WebServlet(name = "RestServlet", urlPatterns = {"/RestServlet"})
-public class RestServlet extends HttpServlet {
-    
-    RestClient client;
-    Response res;
-    Collection<String> lnames;
-    Collection<String> unames;
-    GenericType<Collection<String>> gnames;
+@DeclareRoles({"Admin", "Supervisor"})
+@ServletSecurity(
+        value = @HttpConstraint(rolesAllowed = {"Admin"}))
+
+@WebServlet(name = "SecureServlet", urlPatterns = {"/SecureServlet"})
+public class SecureServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -48,29 +44,12 @@ public class RestServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet RestServlet</title>");            
+            out.println("<title>Servlet SecureServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            client = new RestClient();
-            unames = new ArrayList<String>();
-            gnames = new GenericType<Collection<String>>() { };
-            
-            lnames = new ArrayList<String>();
-            lnames.add("prachi");
-            lnames.add("prashant");
-            lnames.add("vipul");
-            
-            res = client.getUpperNames(lnames, Response.class);
-            unames = res.readEntity(gnames);
-            
-            for(String s : unames)
-            {
-             out.println("<h1>"+s+"</h1>");   
-            }
-            
-            out.println("<h1> hello :  " + client.sayHello() + "</h1>");
-           out.println("<h1> special hello :  " + client.saySpecialHello("Swati") + "</h1>");
-         
+            out.println("<br><br><br><a href=\"/SimpleSecurityApp/logout.jsp\">Log out </a>\n" +
+"   ");
+            out.println("<h1>Servlet SecureServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
