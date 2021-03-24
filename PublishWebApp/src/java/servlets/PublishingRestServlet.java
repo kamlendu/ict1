@@ -25,17 +25,22 @@ import javax.ws.rs.core.Response;
  *
  * @author root
  */
-@WebServlet(name = "RestPubServlet", urlPatterns = {"/RestPubServlet"})
-public class RestPubServlet extends HttpServlet {
+@WebServlet(name = "PublishingRestServlet", urlPatterns = {"/PublishingRestServlet"})
+public class PublishingRestServlet extends HttpServlet {
     
-   PublishClient client;
-   Response res;
-   Collection<Customer> customers;
-   GenericType<Collection<Customer>> gcustomers;
-   Collection<Address> addresses;
-   GenericType<Collection<Address>> gaddresses;
-   Collection<Subscription> subs;
-   GenericType<Collection<Subscription>> gsubs;
+    PublishClient client;
+    Response res;
+    Collection<Customer> customers;
+    GenericType<Collection<Customer>> gcustomers;
+    Collection<Address> addresses;
+    GenericType<Collection<Address>> gaddresses;
+    Collection<Subscription> subs;
+    GenericType<Collection<Subscription>> gsubs;
+    
+    
+    
+    
+    
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -54,54 +59,60 @@ public class RestPubServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet RestPubServlet</title>");            
+            out.println("<title>Servlet PublishingRestServlet</title>");            
             out.println("</head>");
             out.println("<body>");
             
             client = new PublishClient();
-            customers= new ArrayList<Customer>();
+            customers = new ArrayList<Customer>();
             gcustomers = new GenericType<Collection<Customer>>(){};
-             addresses= new ArrayList<Address>();
+            addresses = new ArrayList<Address>();
             gaddresses = new GenericType<Collection<Address>>(){};
-            subs= new ArrayList<Subscription>();
+            subs = new ArrayList<Subscription>();
             gsubs = new GenericType<Collection<Subscription>>(){};
+           
+          // client.createCustomer("Sanjay", "Pandya");
+           //client.addAddressToCustomer("One Street", "Manglore", "Karnataka","234123", "20");
+           //client.addAddressToCustomer("Second Street", "Chennai", "Tamilnadu","312342", "20");
+          //client.removeAddressFromCustomer("19", "20");
+
+            // Collection<Integer> ids = new ArrayList<Integer>();
+           //ids.add(1);
+          // ids.add(2);
+           //ids.add(3);
+          // client.addSubscriptionsToCustomers_JSON(ids, "20");
+           // client.removeSubscriptionsFromCustomers_JSON(ids, "20");
             
-            //client.createCustomer("Suhas", "Mukerjee");
-           // client.addAddressToCustomer("B Block", "Jaipur", "Rajasthan", "2342", "19");
-            //client.addAddressToCustomer("C Block", "Patna", "Bihar", "2342", "19");
-           client.removeAddressFromCustomer("18", "19");
-            Collection<Integer> ids = new ArrayList<Integer>();
-            ids.add(1);
-//            ids.add(2);
-//            ids.add(3);
-           // client.addSubscriptionsToCustomers_JSON(ids, "19");
-           client.removeSubscriptionsFromCustomers_JSON(ids, "19");
+            
             res = client.getAllCustomers_JSON(Response.class);
             customers = res.readEntity(gcustomers);
-            for(Customer c: customers)
+            
+            for(Customer c : customers)
             {
-                 out.println("<h2> Cust ID="+ c.getCustomerID()+ " Name = "+ c.getFirstName()+"  "+ c.getLastName()+"</h2>");
-                
-                 res = client.getAddressesOfCustomer_JSON(Response.class, c.getCustomerID().toString());
+                out.println("<h2> custID= "+ c.getCustomerID() + " Name = "+ c.getFirstName()+" "+ c.getLastName()+"</h2>");
+            
+                res = client.getAddressesOfCustomer_JSON(Response.class, c.getCustomerID().toString());
                 addresses = res.readEntity(gaddresses);
-                 for(Address a : addresses)
-                 {
-                    out.println("<h2> Add ID="+ a.getAddressId() + " street = "+ a.getStreet()+" City  "+ a.getCity() +"</h2>");
-                 
-                 }
-                 res = client.getSubscriptionsOfCustomer_JSON(Response.class, c.getCustomerID().toString());
-                 subs = res.readEntity(gsubs);
-                 for(Subscription s : subs)
-                 {
-                    out.println("<h2> Sub ID="+ s.getSubscriptionId() + " Title = "+ s.getTitle()+" Type  "+ s.getType() +"</h2>");
-                 
-                 }
-                 
-                 out.println("<hr/>");
+                for(Address a : addresses)
+                {
+                     out.println("<h2> AddressID= "+ a.getAddressId() + " Street = "+ a.getStreet() +" City =  "+ a.getCity()+ " State = "+ a.getState() +"</h2>");
+            
+                }
+                
+                res = client.getSubscriptionsOfCustomer_JSON(Response.class, c.getCustomerID().toString());
+                subs = res.readEntity(gsubs);
+                for(Subscription s : subs)
+                {
+                     out.println("<h2> SubID= "+ s.getSubscriptionId() + " Title = "+ s.getTitle()+" Type = "+ s.getType()+"</h2>");
+            
+                }
+                
+                out.println("<hr/>");
+            
             }
             
             
-            out.println("<h1>Servlet RestPubServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet PublishingRestServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
