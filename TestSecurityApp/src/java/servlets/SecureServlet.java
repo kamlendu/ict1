@@ -5,9 +5,11 @@
  */
 package servlets;
 
+import ejb.TrialBean;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.annotation.security.DeclareRoles;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.HttpConstraint;
 import javax.servlet.annotation.ServletSecurity;
@@ -21,9 +23,10 @@ import javax.servlet.http.HttpServletResponse;
  * @author root
  */
 @DeclareRoles({"Admin","Supervisor"})
-@ServletSecurity(value = @HttpConstraint(rolesAllowed = {"Admin"}))
+@ServletSecurity(value = @HttpConstraint(rolesAllowed = {"Admin","Supervisor"}))
 @WebServlet(name = "SecureServlet", urlPatterns = {"/SecureServlet"})
 public class SecureServlet extends HttpServlet {
+    @EJB TrialBean tb;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -47,7 +50,7 @@ public class SecureServlet extends HttpServlet {
             out.println("<body>");
    out.println("<br><br><br><a href=\"logout.jsp\">Log out </a>\n" +
 "   ");
-            out.println("<h1>Servlet SecureServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Trial Bean says " + tb.sayHello() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }

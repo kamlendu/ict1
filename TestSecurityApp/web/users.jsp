@@ -16,8 +16,8 @@
     <body>
         <h1>Hello Supervisors !!!</h1>
 
-        <a href="/PublishApp-war/RestPubServlet">  Publishing Application </a>
-        <br><br><br><a href="/SimpleSecurityApp/logout.jsp">Log out </a>
+        <a href="/TestSecurityApp/SecureServlet">  Secure Servlet </a>
+        <br><br><br><a href="logout.jsp">Log out </a>
    
     </body>
 </html>
