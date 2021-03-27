@@ -1,6 +1,6 @@
 <%-- 
-    Document   : admin
-    Created on : 28 Oct, 2010, 11:43:13 PM
+    Document   : users
+    Created on : 28 Oct, 2010, 11:43:50 PM
     Author     : root
 --%>
 
@@ -14,8 +14,10 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello Administrators !!!</h1>
-        <a href="/TestSecurityApp/SecureServlet"> Secure Servlet </a>
+        
+        <h1>Hello Supervisors !!!</h1>
+
+        <a href="/TestSecurityApp/SecureServlet">  Secure Servlet </a>
         <br><br><br><a href="logout.jsp">Log out </a>
    
     </body>
