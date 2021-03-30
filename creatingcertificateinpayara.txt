@@ -8,6 +8,9 @@ cd /usr/local/payaracommunity2021/glassfish/domains/domain1/config
 
 2) Take the backup of Keystore.jks
 
+
+default password : changeit
+
 cp keystore.jks keystore-backup.jks
 
 3) Delete the existing public private key pair which is stored as alias s1as
