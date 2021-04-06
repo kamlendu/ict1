@@ -60,47 +60,66 @@ public class PubServlet extends HttpServlet {
           //ids.add(5);
           //pbl.removeSubscriptionsFromCustomers(16, ids);
          // pbl.addSubscriptionsToCustomers(16, ids);
+   
          
-         List<GujCust> Gujustomers =  pbl.getAddressOfCustomersFromGujarat();
-         System.out.println("Gujarat="+Gujustomers);
+         out.println("<h3><br/>Result of First Dynamic Query method <br/> ");
+         Collection<Address> GujAddresses =  pbl.getAdressOfCityAndState("surat", "Gujarat");
+       //  System.out.println("Gujarat="+GujAddresses);
+      for(Address a : GujAddresses)
+      {
+      
+          out.println("<br/>Street= "+ a.getStreet() +" city=  " + a.getCity() + " state="+ a.getState());
+      }
+        out.println("<hr/>"); 
+         
+         out.println("<br/>Result of Native Query method <br/>");
+         List<GujCust> Gujustomers =  pbl.getAddressFromGujarat();
+        // System.out.println("Gujarat="+Gujustomers);
       for(GujCust o : Gujustomers)
       {
-//           Object[] obj = (Object[]) o;
-//           String fname = String.valueOf(obj[0]); // don't know the type of column CLIENT assuming String 
-//           String state = String.valueOf(obj[1]);
-//      System.out.println("Data "+ fname +"  " +state);
       
-           System.out.println("Data "+ o.getFirstName() +"  " +o.getState());
+          out.println("<br/> Name "+ o.getFirstName() +" state= " +o.getState());
+      }
+         
+         out.println("<hr/>"); 
+         
+         out.println("<br/>Result of Second Dynamic Query method <br/>");
+         List<GujCust> Gujcustomers =  pbl.getAddressOfCustomersFromGujarat();
+       
+      for(GujCust o : Gujcustomers)
+      {
+      
+          out.println("<br/>Name "+ o.getFirstName() +" State " +o.getState());
       }
          
          
-         System.out.println("</hr>");
-            Collection<Customer> customers = pbl.getAllCustomers();
-            for(Customer c : customers)
-            {
-               out.println("<h2>Cust Id = " + c.getCustomerID()+ " Name = "+ c.getFirstName()+ " "+ c.getLastName()+"</h2>");
-               
-               Collection<Address> addresses = pbl.getAddressesOfCustomer(c.getCustomerID());
-               
-               for(Address a : addresses)
-               {
-                 out.println("<h2>Add Id = " + a.getAddressId()+ " City = "+ a.getCity()+ " state = "+ a.getState()+ "</h2>");
-                 
-                   
-               }
-               
-               Collection<Subscription> subs = pbl.getSubscriptionsOfCustomer(c.getCustomerID());
-               
-                for(Subscription s : subs)
-                {
-                    out.println("<h2>Sub Id = " + s.getSubscriptionId()+ " Title = "+ s.getTitle()+ "  Type = "+ s.getType()+ "</h2>");
-                 
-                }
-                
-               out.println("<hr>"); 
-            }
-            
-            
+         System.out.println("</h3><hr/>");
+//            Collection<Customer> customers = pbl.getAllCustomers();
+//            for(Customer c : customers)
+//            {
+//               out.println("<h2>Cust Id = " + c.getCustomerID()+ " Name = "+ c.getFirstName()+ " "+ c.getLastName()+"</h2>");
+//               
+//               Collection<Address> addresses = pbl.getAddressesOfCustomer(c.getCustomerID());
+//               
+//               for(Address a : addresses)
+//               {
+//                 out.println("<h2>Add Id = " + a.getAddressId()+ " City = "+ a.getCity()+ " state = "+ a.getState()+ "</h2>");
+//                 
+//                   
+//               }
+//               
+//               Collection<Subscription> subs = pbl.getSubscriptionsOfCustomer(c.getCustomerID());
+//               
+//                for(Subscription s : subs)
+//                {
+//                    out.println("<h2>Sub Id = " + s.getSubscriptionId()+ " Title = "+ s.getTitle()+ "  Type = "+ s.getType()+ "</h2>");
+//                 
+//                }
+//                
+//               out.println("<hr>"); 
+//            }
+//            
+//            
             
             out.println("<h1>Servlet PubServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");

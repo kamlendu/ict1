@@ -23,7 +23,15 @@ public interface PublishBeanLocal {
     // Taking data from three tables. This requires customername from customer table,
     //title from subscription and state from address;
     
+  // Using Dynamic Query
+    Collection<Address> getAdressOfCityAndState(String city, String state);
+    
+    // Using Dynamic Query
     List<GujCust> getAddressOfCustomersFromGujarat();
+    
+    // Using Native Query
+    List<GujCust> getAddressFromGujarat();
+    
     
     
     Collection<Customer> getAllCustomers();
