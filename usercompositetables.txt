@@ -1,0 +1,16 @@
+CREATE TABLE `projectusers` (
+  `username` varchar(100) NOT NULL,
+  `password` varchar(500) NOT NULL,
+  PRIMARY KEY (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `projectgroups` (
+  `groupname` varchar(100) NOT NULL,
+  `username` varchar(45) NOT NULL,
+  PRIMARY KEY (`groupname`,`username`),
+  KEY `fk_projectgroups_1_idx` (`username`),
+  CONSTRAINT `fk_projectgroups_1` FOREIGN KEY (`username`) REFERENCES `projectusers` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
