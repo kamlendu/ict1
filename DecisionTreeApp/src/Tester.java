@@ -584,7 +584,7 @@ class Classify_3Attributes1 implements Runnable {
 	public void run() {
 		boolean verbose = false;
 
-		DataReader dr = ReadFile.getCSVDataReader("data_3_attributes_sci.csv");
+		DataReader dr = ReadFile.getCSVDataReader("data_3_attributes.csv");
 		dr.splitTrainTestData(1);
 
 		DecisionTree dt = ReadFile
@@ -621,7 +621,7 @@ class Classify_5Attributes1 implements Runnable {
 	public void run() {
 		boolean verbose = false;
 
-		DataReader dr = ReadFile.getCSVDataReader("data_5_attributes_sci.csv");
+		DataReader dr = ReadFile.getCSVDataReader("data_5_attributes.csv");
 		dr.splitTrainTestData(1);
 
 		DecisionTree dt = ReadFile
@@ -662,9 +662,17 @@ class Equals_String implements Runnable {
 	public void run() {
 		DecisionTree dt = ReadFile
 				.getDTFromFile("data_high_overlap/thresh4.ser");
+        boolean equal=false;
+               // @SuppressWarnings("IncompatibleEquals")
+               try{
+		 equal = dt.rootDTNode.equals("a string");
+               }
+               catch(Exception ex)
+               {
+                   
+               }
 
-		boolean equal = dt.rootDTNode.equals("a String");
-             
+               
 		if(equal)
 			throw new AssertionError("dtNode.equals(String) returned true");
 		else
@@ -696,7 +704,7 @@ class FillDTNode_3Attributes1 implements Runnable {
 		boolean force = false;
 
 		int threshold = 1;
-		DataReader dr = ReadFile.getCSVDataReader("data_3_attributes_sci.csv");
+		DataReader dr = ReadFile.getCSVDataReader("data_3_attributes.csv");
 		dr.splitTrainTestData(1);
 
 		DecisionTree serdt = ReadFile.getDTFromFile(
@@ -728,7 +736,7 @@ class FillDTNode_3Attributes64 implements Runnable {
 		boolean force = false;
 
 		int threshold = 64;
-		DataReader dr = ReadFile.getCSVDataReader("data_3_attributes_sci.csv");
+		DataReader dr = ReadFile.getCSVDataReader("data_3_attributes.csv");
 		dr.splitTrainTestData(1);
 
 		DecisionTree serdt = ReadFile.getDTFromFile(
@@ -760,7 +768,7 @@ class FillDTNode_5Attributes1 implements Runnable {
 		boolean force = false;
 
 		int threshold = 1;
-		DataReader dr = ReadFile.getCSVDataReader("data_5_attributes_sci.csv");
+		DataReader dr = ReadFile.getCSVDataReader("data_5_attributes.csv");
 		dr.splitTrainTestData(1);
 
 		DecisionTree serdt = ReadFile.getDTFromFile(
@@ -792,7 +800,7 @@ class FillDTNode_5Attributes64 implements Runnable {
 		boolean force = false;
 
 		int threshold = 64;
-		DataReader dr = ReadFile.getCSVDataReader("data_5_attributes_sci.csv");
+		DataReader dr = ReadFile.getCSVDataReader("data_5_attributes.csv");
 		dr.splitTrainTestData(1);
 
 		DecisionTree serdt = ReadFile.getDTFromFile(
@@ -833,7 +841,7 @@ class FillDTNode_NonDecreasingEntropy1 implements Runnable {
 						+ ".ser");
 		DecisionTree dt = new DecisionTree(dr.trainData, threshold);
 
-		if (!DecisionTree.equals(serdt, dt)) {
+		if (DecisionTree.equals(serdt, dt)) {
 			if (verbose) {
 				new DecisionTreeVisualizer(serdt, "Expected");
 				new DecisionTreeVisualizer(dt, "Received");
@@ -1568,17 +1576,20 @@ public class Tester {
 			"FillDTNode_Partial3",
 			"Classify_3Attributes1",
 			"Classify_5Attributes1",
-			//"Equals_String",
+			"Equals_String",
 			"Equals_Null",
-			//"FillDTNode_3Attributes1",
-			//"FillDTNode_3Attributes64",
-			//"FillDTNode_5Attributes1",
-			//"FillDTNode_5Attributes64",
-			//"FillDTNode_NonDecreasingEntropy1",
+			"FillDTNode_3Attributes1",
+			"FillDTNode_3Attributes64",
+			"FillDTNode_5Attributes1",
+			"FillDTNode_5Attributes64",
+			"FillDTNode_NonDecreasingEntropy1",
 	};
 
 	public static void main(String[] args) {
-		int numPassed = 0;
+		int[] thresh = new int[]{1,64};
+           // createTestData(3, thresh);
+           // createTestData(5, thresh);
+            int numPassed = 0;
 		ArrayList<String> failedTests = new ArrayList<String>(tests.length);
 		for (String className : tests) {
 			System.out.printf("%n======= %s =======%n", className);
